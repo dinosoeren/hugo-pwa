@@ -1,4 +1,4 @@
-module github.com/hugomods/pwa
+module github.com/dinosoeren/hugo-pwa
 
 go 1.18
 
