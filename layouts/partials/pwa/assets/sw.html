@@ -75,10 +75,12 @@
   "target" "es2018"
   "targetPath" "reg.js"
 }}
-{{- $regJs := resources.Get "mods/pwa/service-worker/register.ts" }}
+{{- $regJs := resources.Get "mods/pwa/service-worker/register.ts" -}}
 {{/* Compile JS. */}}
-{{- $regJs = $regJs | js.Build $options }}
-{{ if hugo.IsProduction }}
-  {{ $regJs = $regJs | fingerprint "sha512" }}
-{{ end }}
-<script src="{{ $regJs.RelPermalink }}" {{ if hugo.IsProduction }}integrity="{{ $regJs.Data.Integrity }}"{{ end }}></script>
+{{- $regJs = $regJs | js.Build $options -}}
+{{- if hugo.IsProduction -}}
+  {{- $regJs = $regJs | fingerprint "sha512" -}}
+{{- end -}}
+<script type="text/javascript" {{ if hugo.IsProduction }}integrity="{{ $regJs.Data.Integrity }}"{{ end }}>
+  {{- $regJs.Content | safeJS -}}
+</script>
